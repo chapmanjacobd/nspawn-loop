@@ -9,7 +9,7 @@ Inspired by [arm-runner-action](https://github.com/pguyot/arm-runner-action), [B
 
 3. (optional) `./chroot.sh raspios_lite_arm64_latest.state --boot`
 
-4. (optional; to snapshot or resume work later) `./unmount.sh raspios_lite_arm64_latest.state --boot`
+4. (optional; to snapshot or resume work later) `./unmount.sh raspios_lite_arm64_latest.state`
 
 5. `./shrink.sh raspios_lite_arm64_latest.state`
 
