@@ -6,3 +6,4 @@
 *.img.xz
 /.#*.lck
 /mnt/
+*.zst
