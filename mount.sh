@@ -9,6 +9,7 @@ IMAGE_SOURCE="${1:-$DEFAULT_URL}"
 TARGET_MB="${2:-5000}"
 BOOT_PARTITION="${3:-}"
 ROOT_PARTITION="${4:-}"
+partition_count=0
 
 if [[ "$IMAGE_SOURCE" =~ ^https?:// ]]; then
     BASE_FILENAME=$(basename "$IMAGE_SOURCE")
@@ -187,8 +188,8 @@ if [ "$ADDITIONAL_MB" -gt 0 ]; then
     fi
 
     echo "Resizing filesystem to end of partition"
-    if [[ -z "$ROOT_PARTITION" || -z "$BOOT_PARTITION" && "$partition_count" -eq 1 ]]; then
-        # losetup unwraps single partitions
+    if [[ -z "$ROOT_PARTITION" ]]; then
+        # no partition table: filesystem sits on the whole image
         PARTDEV=$(wait_for_device_file "${LOOPDEV}")
     else
         PARTDEV=$(wait_for_device_file "${LOOPDEV}p${ROOT_PARTITION}")
@@ -214,8 +215,8 @@ else
     sleep 2
 fi
 
-if [[ -z "$ROOT_PARTITION" || -z "$BOOT_PARTITION" && "$partition_count" -eq 1 ]]; then
-    # losetup unwraps single partitions
+if [[ -z "$ROOT_PARTITION" ]]; then
+    # no partition table: filesystem sits on the whole image
     ROOTDEV=$(wait_for_device_file "${LOOPDEV}")
 else
     ROOTDEV=$(wait_for_device_file "${LOOPDEV}p${ROOT_PARTITION}")
